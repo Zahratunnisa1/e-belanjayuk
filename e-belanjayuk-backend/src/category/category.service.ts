@@ -16,4 +16,15 @@ export class CategoryService {
       },
     });
   }
+
+  async findProducts(categoryId: string) {
+  return this.prisma.category.findUnique({
+    where: {
+      id: categoryId,
+    },
+    include: {
+      products: true,
+    },
+  });
+}
 }
