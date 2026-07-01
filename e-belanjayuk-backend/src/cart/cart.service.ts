@@ -3,7 +3,11 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CartService {
-  constructor(private prisma: PrismaService) {}
+
+  constructor(
+    private prisma: PrismaService,
+  ) {}
+
 
   async addToCart(
     userId: string,
@@ -19,6 +23,7 @@ export class CartService {
     });
   }
 
+
   async findMyCart(userId: string) {
     return this.prisma.cart.findMany({
       where: {
@@ -26,15 +31,31 @@ export class CartService {
       },
       include: {
         product: true,
-      }
-    })
+      },
+    });
   }
 
-  async remove(id: string){
+
+  async remove(id: string) {
     return this.prisma.cart.delete({
       where: {
         id,
       },
     });
   }
+
+
+  async getCart(userId: string) {
+
+    return this.prisma.cart.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        product: true,
+      },
+    });
+
+  }
+
 }
